@@ -19,6 +19,7 @@ await mkdir(join(dist, 'assets'), { recursive: true });
 const staticFiles: Array<[string, string]> = [
   ['src/index.html', join(dist, 'index.html')],
   ['src/robots.txt', join(dist, 'robots.txt')],
+  ['src/_headers', join(dist, '_headers')],
   ['src/manifest.webmanifest', join(dist, 'manifest.webmanifest')],
   ['src/styles/m3-theme.css', join(dist, 'styles/m3-theme.css')],
   ['src/styles/typography.css', join(dist, 'styles/typography.css')],

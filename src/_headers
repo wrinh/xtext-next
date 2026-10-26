@@ -1,0 +1,4 @@
+# dict.bin 是高熵 CJK 文本,octet-stream 不在 Cloudflare 压缩白名单;
+# 映射为 text/plain 使边缘按 Accept-Encoding 协商 brotli/gzip(应用按字节消费,不关心 MIME)
+/assets/dict.bin
+  Content-Type: text/plain
