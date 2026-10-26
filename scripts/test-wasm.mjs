@@ -119,7 +119,8 @@ if (legacy.toString('binary', 0, 5) === 'XTEXT') {
   const { instance: legacyInst } = await WebAssembly.instantiate(wasm, { _: stringImports }, { builtins: ['js-string'] });
   const lex = legacyInst.exports;
   const n = lex.load_dict(legacy.toString('base64'));
-  const legacyOk = lex.index_status() === 0 && n === 11340 &&
+  // 条数随上游增补变化,与新版引擎的 count 对齐即可,勿硬编码
+  const legacyOk = lex.index_status() === 0 && n === ex.record_count() &&
     JSON.stringify(JSON.parse(lex.search_meaning('丈夫'))) === JSON.stringify(bruteMeaning('丈夫')) &&
     JSON.stringify(JSON.parse(lex.search_meaning('之'))) === JSON.stringify(bruteMeaning('之'));
   console.log(`\n旧格式(无索引)兼容: ${legacyOk ? '✓ 回退全扫,结果一致' : '✗ 失败'}`);

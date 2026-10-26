@@ -15,9 +15,9 @@ beforeAll(() => {
 });
 
 describe('数据契约', () => {
-  test('base/extra 条目数一致（11340）', () => {
-    expect(base.length).toBe(11340);
-    expect(extra.length).toBe(base.length);
+  test('base/extra 条目数一致（上游会增补条目，勿硬编码条数）', () => {
+    expect(base.length).toBe(extra.length);
+    expect(base.length).toBeGreaterThan(10000); // 防灾难性上游变更的兜底
   });
 });
 
