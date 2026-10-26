@@ -12,7 +12,6 @@ reference/extra.json.gz
 
 # 字典编码产物 —— 由 scripts/encode-dict.ts 生成
 src/assets/dict.bin
-src/assets/dict.bin.gz
 
 # MoonBit WASM 编译产物 —— 由 moon build 生成
 src/assets/xtext_core.wasm
@@ -22,3 +21,4 @@ moonbit/xtext_core/_build/
 *.log
 .DS_Store
 .wrangler/
+.idea/

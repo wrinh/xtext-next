@@ -24,7 +24,7 @@ const staticFiles: Array<[string, string]> = [
   ['src/styles/typography.css', join(dist, 'styles/typography.css')],
   ['src/assets/icon.svg', join(dist, 'assets/icon.svg')],
   ['src/assets/xtext_core.wasm', join(dist, 'assets/xtext_core.wasm')],
-  ['src/assets/dict.bin.gz', join(dist, 'assets/dict.bin.gz')],
+  ['src/assets/dict.bin', join(dist, 'assets/dict.bin')],
 ];
 for (const [from, to] of staticFiles) await copyFile(from, to);
 
@@ -49,7 +49,7 @@ const fingerprintFiles = [
   join(dist, 'styles', 'm3-theme.css'),
   join(dist, 'styles', 'typography.css'),
   join(dist, 'assets', 'xtext_core.wasm'),
-  join(dist, 'assets', 'dict.bin.gz'),
+  join(dist, 'assets', 'dict.bin'),
   join(dist, 'assets', 'icon.svg'),
 ];
 for (const file of fingerprintFiles) {

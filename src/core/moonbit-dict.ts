@@ -24,9 +24,9 @@ export type ProgressFn = (loaded: number, total: number) => void;
 export async function initEngine(onProgress?: ProgressFn): Promise<number> {
   const ex = await loadWasm();
 
-  // 下载 dict.bin.gz
-  const resp = await fetch('assets/dict.bin.gz');
-  if (!resp.ok) throw new Error(`dict.bin.gz 加载失败: ${resp.status}`);
+  // 下载 dict.bin(传输压缩由 CDN 按 Accept-Encoding 自动协商)
+  const resp = await fetch('assets/dict.bin');
+  if (!resp.ok) throw new Error(`dict.bin 加载失败: ${resp.status}`);
   const total = Number(resp.headers.get('content-length') || 0);
   const reader = resp.body?.getReader();
   if (!reader) throw new Error('响应无 body');
@@ -47,13 +47,7 @@ export async function initEngine(onProgress?: ProgressFn): Promise<number> {
   let offset = 0;
   for (const c of chunks) { combined.set(c, offset); offset += c.length; }
 
-  // 解压 gzip
-  const ds = new DecompressionStream('gzip');
-  const decompressed = await new Response(
-    new Blob([combined]).stream().pipeThrough(ds),
-  ).arrayBuffer();
-
-  const b64 = bufferToBase64(decompressed);
+  const b64 = bufferToBase64(combined.buffer as ArrayBuffer);
   const count = ex.load_dict(b64);
   if (count <= 0) throw new Error('dict.bin 魔数错误');
   engine = { ex, count };

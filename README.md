@@ -27,7 +27,7 @@ moonbit/xtext_core/          MoonBit 檢索引擎（編譯為 wasm-gc）
 
 scripts/
 ├── fetch-dict-source.ts     從上游 Qwert-ly/xtext 下載 base.json.gz + extra.json.gz
-├── encode-dict.ts           編碼為緊湊二進制 dict.bin（11340 條，6.38 MB）並輸出 dict.bin.gz（2.80 MB）
+├── encode-dict.ts           編碼為緊湊二進制 dict.bin（11340 條，7.40 MB，含釋義倒排索引），傳輸壓縮交由 CDN
 ├── build-static.ts          複製 HTML/樣式/資產至 dist/，編譯 Service Worker
 ├── serve.ts                 本地預覽（模擬 /cdn-cgi/trace loc=CN）
 └── test-wasm.mjs            WASM 引擎端到端驗證
@@ -57,8 +57,8 @@ tests/dict-engine.test.ts    22 項引擎單元測試
 倉庫內**不提交**字典數據與編譯產物（見 `.gitignore`），構建時自動獲取：
 
 1. `bun run fetch:dict` — 從上游 [Qwert-ly/xtext](https://github.com/Qwert-ly/xtext)（`docs/base.json.gz` + `docs/extra.json.gz`）下載源數據至 `src/assets/`
-2. `bun run encode:dict` — 編碼為緊湊二進制 `dict.bin`（Header 32B + 11340 × 56B 定長記錄 + UTF-8 字符串池，按 z 碼點升序），並輸出運行時產物 `dict.bin.gz`
-3. 運行時通過 `DecompressionStream('gzip')` 解壓 `dict.bin.gz`，base64 傳入 WASM 一次性駐留，零 `JSON.parse` 開銷
+2. `bun run encode:dict` — 編碼為緊湊二進制 `dict.bin`（Header 32B + 11340 × 56B 定長記錄 + UTF-8 字符串池 + 釋義倒排索引 trailer，按 z 碼點升序）
+3. 運行時直接 fetch `dict.bin`（傳輸壓縮由 Cloudflare 按請求的 Accept-Encoding 自動協商），base64 傳入 WASM 一次性駐留，零 `JSON.parse` 開銷
 
 ## 開發
 
@@ -87,7 +87,7 @@ bun run serve       # 本地預覽 http://localhost:4173（模擬 /cdn-cgi/trace
 
 1. 安裝 MoonBit 工具鏈，`moon build --target wasm-gc --release` 編譯檢索引擎
 2. 安裝 Bun，`bun install --frozen-lockfile`
-3. 從上游 Qwert-ly/xtext 下載字典源數據，編碼為 `dict.bin.gz`
+3. 從上游 Qwert-ly/xtext 下載字典源數據，編碼為 `dict.bin`
 4. `bun test`（22 項單元測試）
 5. `bun run build` 構建前端至 `dist/`
 6. PR 僅構建驗證；push 到 `main` 時通過 `wrangler-action` 發佈至 Cloudflare Pages

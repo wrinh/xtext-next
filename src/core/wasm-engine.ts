@@ -1,7 +1,7 @@
 /**
  * MoonBit WASM 引擎加载器
  *
- * 加载 xtext_core.wasm（wasm-gc + js-string builtins），fetch dict.bin.gz，
+ * 加载 xtext_core.wasm（wasm-gc + js-string builtins），fetch dict.bin，
  * base64 编码后送入引擎。对外暴露与旧 DictEngine 相同的查询接口。
  */
 

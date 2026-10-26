@@ -3,12 +3,13 @@
  * 布局与 moonbit/xtext_core/query.mbt 中定义的格式严格一致:
  *   [header 32B][记录表 56B/条][UTF-8 字符串池][释义倒排索引][trailer 8B = 索引区偏移]
  * 索引区与 trailer 为可选(旧引擎忽略尾部字节;新引擎检测不到则回退全表扫描)。
+ * 传输压缩交给 CDN(按请求的 Accept-Encoding 自动协商),不在构建期 gzip。
  *
  * 用法：bun scripts/encode-dict.ts
  * 输入：src/assets/base.json.gz / extra.json.gz（由 scripts/fetch-dict-source.ts 从上游仓库下载）
- * 输出：src/assets/dict.bin + dict.bin.gz
+ * 输出：src/assets/dict.bin
  */
-import { gunzipSync, gzipSync } from 'node:zlib';
+import { gunzipSync } from 'node:zlib';
 import { readFileSync, writeFileSync } from 'node:fs';
 
 interface RawBase { z?: string; y?: string; p?: string; a?: string; s?: number; q?: number }
@@ -205,9 +206,4 @@ trailer.writeBigUInt64LE(BigInt(indexOffset), 0);
 const final = Buffer.concat([out.subarray(0, poolOffset + poolLen), indexBuf, trailer]);
 writeFileSync('src/assets/dict.bin', final);
 
-// 运行时产物：DecompressionStream('gzip') 解压后加载
-const gz = gzipSync(final, { level: 9 });
-writeFileSync('src/assets/dict.bin.gz', gz);
-
 console.log(`✓ dict.bin: ${sorted.length} 记录, ${(final.length / 1024 / 1024).toFixed(2)} MB (pool ${(poolLen / 1024 / 1024).toFixed(2)} MB, 索引 ${(indexBuf.length / 1024).toFixed(0)} KB: ${index.chars.length} 字符 + ${index.excluded.length} 超频排除)`);
-console.log(`✓ dict.bin.gz: ${(gz.length / 1024 / 1024).toFixed(2)} MB`);

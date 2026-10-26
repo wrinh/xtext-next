@@ -4,7 +4,7 @@
 
 ```bash
 bun run fetch:dict    # download base/extra.json.gz from upstream Qwert-ly/xtext → src/assets/
-bun run encode:dict   # encode dict.bin + dict.bin.gz (requires fetch:dict first)
+bun run encode:dict   # encode dict.bin (requires fetch:dict first; transfer compression is the CDN's job via Accept-Encoding)
 bun test              # reads src/assets/base.json.gz — run AFTER fetch:dict/encode:dict
 bun run build         # bun build (index.js) + build-static (dist/)
 bun run serve         # build + preview at :4173 (simulates /cdn-cgi/trace loc=CN)
@@ -47,7 +47,7 @@ Non-BMP coverage is real: the dict contains 414 ext-block entries; test with e.g
 - No emoji anywhere (code, comments, UI). Icons come from `src/components/icons.ts` (Material Symbols SVG).
 - CJK↔Latin spacing: never put literal spaces in content strings; `text-autospace: normal` handles rendering.
 - Links must be underlined (not color-only); text ≥16px for body copy; theme tokens are generated at runtime by Material Color Utilities from seed `#8f4a3c` (`src/theme/dynamic-theme.ts`, injected `<style id="mcu-dynamic-theme">`) — to change colors, change the seed, not the static tokens in `m3-theme.css` (those are first-paint fallback only).
-- MiSans compliance (footer + welcome + README attribution text and license link) is a license requirement — don't remove it; fonts load via CDN split in `src/core/font-loader.ts` (BootCDN for `loc=CN`, cdnjs otherwise).
+- MiSans compliance (footer + README attribution text and license link) is a license requirement — don't remove it. The owner shortened the footer wording (「字體支持：MiSans (Copyright © Xiaomi Inc.)」 + license link) and commented out the welcome 字體許可 section in the org migration — treat that as intentional, don't re-add the old verbatim paragraphs. Fonts load via CDN split in `src/core/font-loader.ts` (BootCDN for `loc=CN`, cdnjs otherwise).
 
 ## Deploy and Service Worker
 

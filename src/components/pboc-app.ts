@@ -542,7 +542,7 @@ export class PbocApp extends LitElement {
 
       <footer class="site-footer">
         <p aria-live="polite">${this.dataUpdatedAt}</p>
-        <p class="misans-attribution">本軟件界面採用小米科技有限責任公司擁有知識產權的MiSans字體，嚴格遵守<a href="https://hyperos.mi.com/font-download/MiSans%E5%AD%97%E4%BD%93%E7%9F%A5%E8%AF%86%E4%BA%A7%E6%9D%83%E8%AE%B8%E5%8F%AF%E5%8D%8F%E8%AE%AE.pdf" target="_blank" rel="noopener">《MiSans字體知識產權許可協議》</a>。字體知識產權歸小米科技有限責任公司所有。</p>
+        <p class="misans-attribution">字體支持：<a href="https://hyperos.mi.com/font-download/MiSans%E5%AD%97%E4%BD%93%E7%9F%A5%E8%AF%86%E4%BA%A7%E6%9D%83%E8%AE%B8%E5%8F%AF%E5%8D%8F%E8%AE%AE.pdf" target="_blank" rel="noopener">MiSans</a> (Copyright © Xiaomi Inc.)</p>
       </footer>
 
       <button class="back-to-top ${this.hasSearched ? 'visible' : ''}" type="button"
@@ -924,10 +924,10 @@ export class PbocApp extends LitElement {
           </details>
         </section>
 
-        <section class="welcome-section" aria-labelledby="licenseTitle">
-          <h3 id="licenseTitle">字體許可</h3>
-          <p class="font-license">本軟件界面採用小米科技有限責任公司擁有知識產權的MiSans字體（含MiSans L3），嚴格遵守<a href="https://hyperos.mi.com/font-download/MiSans%E5%AD%97%E4%BD%93%E7%9F%A5%E8%AF%86%E4%BA%A7%E6%9D%83%E8%AE%B8%E5%8F%AF%E5%8D%8F%E8%AE%AE.pdf" target="_blank" rel="noopener">《MiSans字體知識產權許可協議》</a>。字體知識產權歸小米科技有限責任公司所有。</p>
-        </section>
+<!--        <section class="welcome-section" aria-labelledby="licenseTitle">-->
+<!--          <h3 id="licenseTitle">字體支持</h3>-->
+<!--          <p class="font-license"><a href="https://hyperos.mi.com/font-download/MiSans%E5%AD%97%E4%BD%93%E7%9F%A5%E8%AF%86%E4%BA%A7%E6%9D%83%E8%AE%B8%E5%8F%AF%E5%8D%8F%E8%AE%AE.pdf" target="_blank" rel="noopener">MiSans</a> (Copyright © Xiaomi Inc.)</p>-->
+<!--        </section>-->
       </article>
     `;
   }
